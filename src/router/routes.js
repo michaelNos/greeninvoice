@@ -1,3 +1,20 @@
+import store from '../store/auth'
+
+const ifAuthenticated = (to, from, next) => {
+  if (store.getters.isAuthenticated(store.state)) {
+    next()
+    return
+  }
+  next('/')
+}
+
+const ifNotAuthenticated = (to, from, next) => {
+  if (!store.getters.isAuthenticated(store.state)) {
+    next()
+    return
+  }
+  next('/welcome')
+}
 
 const routes = [
   {
@@ -5,7 +22,16 @@ const routes = [
     component: () => import('layouts/MyLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Index.vue') }
-    ]
+    ],
+    beforeEnter: ifNotAuthenticated
+  },
+  {
+    path: '/welcome',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Welcome.vue') }
+    ],
+    beforeEnter: ifAuthenticated
   }
 ]
 

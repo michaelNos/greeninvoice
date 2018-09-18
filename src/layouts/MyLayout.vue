@@ -3,8 +3,8 @@
     <q-layout-header>
       <q-toolbar color="primary">
         <q-toolbar-title>
-          <q-icon name="lock_outline" />
-          Logged out
+          <q-icon :name="$store.state.auth.status === 'login' ? 'lock_open' : 'lock'" />
+          Logged {{ $store.state.auth.status === 'login' ? ' in' : ' out' }}
         </q-toolbar-title>
       </q-toolbar>
     </q-layout-header>
@@ -16,18 +16,9 @@
 </template>
 
 <script>
-import { openURL } from 'quasar'
 
 export default {
-  name: 'MyLayout',
-  data () {
-    return {
-      leftDrawerOpen: this.$q.platform.is.desktop
-    }
-  },
-  methods: {
-    openURL
-  }
+  name: 'Welcome'
 }
 </script>
 
